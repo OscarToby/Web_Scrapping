@@ -1,19 +1,17 @@
 import os
 import smtplib
+from email.message import EmailMessage
 
 EMAIL_ADDRESS = os.environ.get('Gmail_Python_WebScrapping')
 EMAIL_PW = os.environ.get('Gmail_Python_PW')
 
-with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-    smtp.ehlo()
-    smtp.starttls()
-    smtp.ehlo()
+msg = EmailMessage()
+msg['Subject'] = 'Python Developer Jobs'
+msg['From'] = EMAIL_ADDRESS
+msg['To'] = EMAIL_ADDRESS
+msg.set_content('Python jobs for Alex')
 
+with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     smtp.login(EMAIL_ADDRESS, EMAIL_PW)
 
-    subject = 'Python Developer Jobs'
-    body = 'Python jobs for Alex'
-
-    msg = f'Subject: {subject}\n\n{body}'
-
-    smtp.sendmail(EMAIL_ADDRESS, 'au.alex5@gmail.com', msg)
+    smtp.send_message(msg)
