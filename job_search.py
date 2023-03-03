@@ -25,7 +25,9 @@ def find_python_jobs():
         if salary is not None:
             salary = salary.text
         python_jobs.append(f'Salary:\t\t   {salary}\n')
-        description1 = job.find('ul', class_ = 'yvsb870 yvsb873 v8nw070 v8nw074').text
+        description1 = job.find('ul', class_ = 'yvsb870 yvsb873 v8nw070 v8nw074')
+        if description1 is not None:
+            description1 = description1.text
         description2 = job.find('span', class_ = 'yvsb870 _14uh9944u _1cshjhy0 _1cshjhy1 _1cshjhy22 _1d0g9qk4 _1cshjhy7').text
         python_jobs.append(f'Description:\t{description1}\n\t\t\t{description2}\n')
         node = job.h3.a['href']
@@ -39,11 +41,8 @@ with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
     smtp.ehlo()
     smtp.starttls()
     smtp.ehlo()
-
     smtp.login(EMAIL_ADDRESS, EMAIL_PW)
-
     subject = 'Python Developer Jobs'
     body = python_jobs
-
     msg = f'Subject: {subject}\n\n{body}'
     smtp.sendmail(EMAIL_ADDRESS, EMAIL_ADDRESS, msg)
